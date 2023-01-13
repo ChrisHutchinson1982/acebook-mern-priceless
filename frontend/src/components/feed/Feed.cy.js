@@ -97,8 +97,16 @@ describe("Feed", () => {
 
       cy.mount(<Feed navigate={navigate} />);
 
+      // cy.wait("@getPosts").then((posts) => {
+      //   cy.get(posts[0]).should("contain.text", "Hello again, world");
+      //   cy.get(posts[1]).should("contain.text", "Hello, world");
+      // });
+
       cy.wait("@getPosts").then(() => {
-        cy.get('[data-cy="feed"]').should("contain.text", "Hello again, world","2017-02-14T12:52:48.000Z","Hello, world","2017-02-14T12:51:48.000Z")
+        cy.get('[data-cy="post"]').then((posts) => {
+          expect(posts[0]).to.contain.text("Hello again, world");
+          expect(posts[1]).to.contain.text("Hello, world");
+        });
       });
     }
   );
