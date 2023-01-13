@@ -97,11 +97,6 @@ describe("Feed", () => {
 
       cy.mount(<Feed navigate={navigate} />);
 
-      // cy.wait("@getPosts").then((posts) => {
-      //   cy.get(posts[0]).should("contain.text", "Hello again, world");
-      //   cy.get(posts[1]).should("contain.text", "Hello, world");
-      // });
-
       cy.wait("@getPosts").then(() => {
         cy.get('[data-cy="post"]').then((posts) => {
           expect(posts[0]).to.contain.text("Hello again, world");
