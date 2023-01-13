@@ -63,3 +63,7 @@ typings/
 # cypress.io
 cypress/screenshots
 cypress/videos
+
+#videos
+frontend/cypress/videos/signing_in.cy.js.mp4
+frontend/cypress/videos/signing_up.cy.js.mp4

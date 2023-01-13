@@ -39,24 +39,20 @@ describe("Post model", () => {
   });
 
   it("can save a post with the time", (done) => {
-
-    var post = new Post({ message: "some message", iat: 1487076708000 });
-    console.log(post)
+    var post = new Post({ message: "some message" });
+    console.log(post);
 
     post.save((err) => {
       expect(err).toBeNull();
 
       Post.find((err, posts) => {
         expect(err).toBeNull();
-        console.log(posts[0])
+        console.log(posts[0]);
 
-        expect(posts[0]).toMatchObject({ message: "some message"});
-        expect((posts[0].iat).toString()).toEqual("Tue Feb 14 2017 12:51:48 GMT+0000 (Greenwich Mean Time)");
+        expect(posts[0]).toMatchObject({ message: "some message" });
+        expect(posts[0].createdAt).not.toEqual(undefined);
         done();
-
       });
     });
   });
 });
-
-
