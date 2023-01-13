@@ -43,12 +43,12 @@ describe("Feed", () => {
               {
                 _id: 1,
                 message: "Hello, world",
-                iat: "2017-02-14T12:51:48.000Z",
+                createdAt: "2017-02-14T12:51:48.000Z",
               },
               {
                 _id: 2,
                 message: "Hello again, world",
-                iat: "2017-02-14T12:52:48.000Z",
+                createdAt: "2017-02-14T12:52:48.000Z",
               },
             ],
           },
@@ -65,6 +65,40 @@ describe("Feed", () => {
             "Hello again, world",
             "2017-02-14T12:52:48.000Z"
           );
+      });
+    }
+  );
+
+  it(
+    "Calls the /posts endpoint and lists all the posts in reverse order",
+    { defaultCommandTimeout: 10000 },
+    () => {
+      window.localStorage.setItem("token", "fakeToken");
+
+      cy.intercept("GET", "/posts", (req) => {
+        req.reply({
+          statusCode: 200,
+          body: {
+            posts: [
+              {
+                _id: 1,
+                message: "Hello, world",
+                createdAt: "2017-02-14T12:51:48.000Z",
+              },
+              {
+                _id: 2,
+                message: "Hello again, world",
+                createdAt: "2017-02-14T12:52:48.000Z",
+              },
+            ],
+          },
+        });
+      }).as("getPosts");
+
+      cy.mount(<Feed navigate={navigate} />);
+
+      cy.wait("@getPosts").then(() => {
+        cy.get('[data-cy="feed"]').should("contain.text", "Hello again, world","2017-02-14T12:52:48.000Z","Hello, world","2017-02-14T12:51:48.000Z")
       });
     }
   );
