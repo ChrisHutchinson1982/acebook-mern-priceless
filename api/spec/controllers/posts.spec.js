@@ -147,12 +147,6 @@ describe("/posts", () => {
 
   describe("GET, when token is present", () => {
     test("returns every post in the collection with time added", async () => {
-      // // mock time.now()
-
-      // dateNowSpy = jest
-      //   .spyOn(Date, "now")
-      //   .mockImplementation(() => 1487076708000);
-
       let post1 = new Post({ message: "howdy!", iat: 1487076708000 });
       let post2 = new Post({ message: "hola!", iat: 1487076708000 });
       await post1.save();
