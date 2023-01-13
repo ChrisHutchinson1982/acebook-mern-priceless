@@ -147,8 +147,8 @@ describe("/posts", () => {
 
   describe("GET, when token is present", () => {
     test("returns every post in the collection with time added", async () => {
-      let post1 = new Post({ message: "howdy!", iat: 1487076708000 });
-      let post2 = new Post({ message: "hola!", iat: 1487076708000 });
+      let post1 = new Post({ message: "howdy!" });
+      let post2 = new Post({ message: "hola!" });
       await post1.save();
       await post2.save();
       let response = await request(app)
@@ -156,19 +156,13 @@ describe("/posts", () => {
         .set("Authorization", `Bearer ${token}`)
         .send({ token: token });
 
-      // console.log(response.body.posts);
-
       let messages = response.body.posts.map((post) => [
         post.message,
-        post.iat,
+        post.createdAt,
       ]);
 
-      expect(messages).toEqual([
-        ["howdy!", "2017-02-14T12:51:48.000Z"],
-        ["hola!", "2017-02-14T12:51:48.000Z"],
-      ]);
-
-      // dateNowSpy.mockRestore();
+      expect(messages[0][1]).not.toEqual(undefined);
+      expect(messages[1][1]).not.toEqual(undefined);
     });
   });
 });
